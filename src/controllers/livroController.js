@@ -65,6 +65,16 @@ class LivroController {
             });
         }
     }
+
+    static async listarLivrosPorEditora (req, res) {
+        const editora = req.query.editora;
+        try {
+            const livrosPorEditora = await livro.find({ editora: editora }).collation({ locale: 'pt', strength: 1 }); // https://www.mongodb.com/pt-br/docs/manual/reference/collation/
+            res.status(200).json(livrosPorEditora);
+        } catch (erro) {
+            res.status(500).json({ message: `${erro.message} - falha na busca`});
+        }
+    }
 }
 
 export default LivroController;
